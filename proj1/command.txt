@@ -1,0 +1,7 @@
+spark-submit main.py hdfs://192.168.42.160:9000/apps/ivan.damnjanovic/pollution 56.1 56.2 10.1 10.2 2014-08-15 2014-09-15
+
+spark-submit --master spark://localhost:7077 --total-executor-cores 80 --executor-memory 16g --executor-cores 8  main.py hdfs://192.168.42.160:9000/apps/ivan.damnjanovic/pollution 56.1 56.2 10.1 10.2 2014-08-15 2014-09-15
+
+spark-submit --master spark://localhost:7077 --total-executor-cores 80 --executor-memory 32g --executor-cores 8  main.py hdfs://192.168.42.160:9000/apps/ivan.damnjanovic/pollution 56.1 56.2 10.1 10.2 2014-08-15 2014-09-15
+
+spark-submit --master spark://localhost:7077 --total-executor-cores 80 --executor-memory 32g --executor-cores 16  main.py hdfs://192.168.42.160:9000/apps/ivan.damnjanovic/pollution 56.1 56.2 10.1 10.2 2014-08-15 2014-09-15

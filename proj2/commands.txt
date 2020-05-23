@@ -1,0 +1,26 @@
+Cassandra:
+
+CREATE KEYSPACE ivangd WITH REPLICATION = { 'class': 'SimpleStrategy', 'replication_factor': 1 };
+USE ivangd;
+
+CREATE TABLE ivangd.Analysis_Info(substance text, timestamp timestamp, elements int, min float, max float, mean float, std float, PRIMARY KEY (substance, timestamp)) WITH CLUSTERING ORDER BY (timestamp DESC);
+
+DROP TABLE ivangd.Analysis_Info;
+
+SELECT * FROM ivangd.Analysis_Info WHERE substance = 'Ozone' ORDER BY timestamp DESC;
+SELECT * FROM ivangd.Analysis_Info WHERE substance = 'Particulate matter' ORDER BY timestamp DESC;
+SELECT * FROM ivangd.Analysis_Info WHERE substance = 'Carbon monoxide' ORDER BY timestamp DESC;
+SELECT * FROM ivangd.Analysis_Info WHERE substance = 'Sulfur dioxide' ORDER BY timestamp DESC;
+SELECT * FROM ivangd.Analysis_Info WHERE substance = 'Nitrogen dioxide' ORDER BY timestamp DESC;
+
+
+
+Producer:
+
+python producer.py /home/aleksandra.stojnev/apps/ivan.damnjanovic/pollution localhost:9092 Pollution
+
+
+
+Consumer:
+
+spark-submit --master spark://localhost:7077 --jars spark-streaming-kafka-0-8-assembly_2.11-2.4.5.jar consumer.py localhost:9092 Pollution 5 56.05 56.35 10.05 10.35 2014-08-10 2014-09-20

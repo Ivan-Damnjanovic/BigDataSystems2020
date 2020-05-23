@@ -1,0 +1,59 @@
+Merger:
+
+python merger.py /home/aleksandra.stojnev/apps/ivan.damnjanovic/pollution /home/aleksandra.stojnev/apps/ivan.damnjanovic/traffic /home/aleksandra.stojnev/apps/ivan.damnjanovic/weather /home/aleksandra.stojnev/apps/ivan.damnjanovic/merged
+
+
+
+Trainer:
+
+spark-submit trainer.py /home/aleksandra.stojnev/apps/ivan.damnjanovic/merged 0 /home/aleksandra.stojnev/apps/ivan.damnjanovic/model.pickle /home/aleksandra.stojnev/apps/ivan.damnjanovic/spark-model
+
+spark-submit \
+--master spark://localhost:7077 \
+--total-executor-cores 80 \
+--executor-memory 16g \
+--executor-cores 8 \
+trainer.py \
+hdfs://192.168.42.160:9000/apps/ivan.damnjanovic/merged \
+0 \
+hdfs://192.168.42.160:9000/apps/ivan.damnjanovic/model.pickle \
+hdfs://192.168.42.160:9000/apps/ivan.damnjanovic/spark-model
+
+
+Producer:
+
+python producer.py /home/aleksandra.stojnev/apps/ivan.damnjanovic/merged localhost:9092 Merged
+
+
+
+Consumer:
+spark-submit --jars spark-streaming-kafka-0-8-assembly_2.11-2.4.5.jar consumer.py localhost:9092 Merged 5 /home/aleksandra.stojnev/apps/ivan.damnjanovic/model.pickle /home/aleksandra.stojnev/apps/ivan.damnjanovic/spark-model 0
+
+spark-submit \
+--master spark://localhost:7077 \
+--total-executor-cores 40 \
+--executor-memory 16g \
+--executor-cores 4 \
+--jars spark-streaming-kafka-0-8-assembly_2.11-2.4.5.jar \
+consumer.py \
+localhost:9092 \
+Merged \
+5 \
+hdfs://192.168.42.160:9000/apps/ivan.damnjanovic/model.pickle \
+hdfs://192.168.42.160:9000/apps/ivan.damnjanovic/spark-model \
+0
+
+Consumer - Spark only:
+spark-submit \
+--master spark://localhost:7077 \
+--total-executor-cores 40 \
+--executor-memory 16g \
+--executor-cores 4 \
+--jars spark-streaming-kafka-0-8-assembly_2.11-2.4.5.jar \
+consumer_spark.py \
+localhost:9092 \
+Merged \
+5 \
+/home/aleksandra.stojnev/apps/ivan.damnjanovic/model.pickle \
+hdfs://192.168.42.160:9000/apps/ivan.damnjanovic/spark-model \
+0

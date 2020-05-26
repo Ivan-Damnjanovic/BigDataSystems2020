@@ -83,9 +83,9 @@ def main(input_path, output_attribute_index, scikit_output_path, spark_output_pa
 
 
 # Sintaksa za pokretanje programa s komandne linije je:
-# python trainer.py input_path output_attribute_index scikit_output_path spark_output_path
+# spark-submit trainer.py input_path output_attribute_index scikit_output_path spark_output_path
 # Na primer:
-# python trainer.py /home/aleksandra.stojnev/apps/ivan.damnjanovic/merged 0 /home/aleksandra.stojnev/apps/ivan.damnjanovic/model.pickle /home/aleksandra.stojnev/apps/ivan.damnjanovic/spark-model
+# spark-submit trainer.py /home/aleksandra.stojnev/apps/ivan.damnjanovic/merged 0 /home/aleksandra.stojnev/apps/ivan.damnjanovic/model.pickle /home/aleksandra.stojnev/apps/ivan.damnjanovic/spark-model
 if __name__ == "__main__":
     if len(sys.argv) != 5:
         # Greska nastupa ukoliko sintaksa nije dobra, tj. nema tacno 4 parametra
